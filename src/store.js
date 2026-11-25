@@ -1,0 +1,6 @@
+export const modules={dashboard:'Dashboard',inventory:'Inventario',sales:'Ventas',cash:'Caja',prices:'Precios',reports:'Informes de ventas',settings:'Configuración'};
+const key='appnova-locales-demo-v1';
+const seed={products:[{id:1,name:'Café americano',sku:'CAF-001',stock:18,min:8,price:2200},{id:2,name:'Sándwich italiano',sku:'SAN-002',stock:5,min:7,price:5900},{id:3,name:'Jugo natural',sku:'JUG-003',stock:0,min:5,price:3200},{id:4,name:'Brownie',sku:'POS-004',stock:12,min:4,price:2800}],sales:[{id:101,date:'2026-11-25T10:40:00',productId:1,quantity:2,total:4400,method:'Tarjeta'},{id:102,date:'2026-11-25T11:20:00',productId:2,quantity:1,total:5900,method:'Efectivo'}],cash:{open:true,opening:50000,movements:[]},subscription:{expires:'2026-12-01'},visibility:{owner:['dashboard','inventory','sales','cash','prices','reports'],seller:['dashboard','inventory','sales','cash','prices']},api:{provider:'',baseUrl:'',status:'Pendiente de configurar'}};
+export function load(){try{const saved=JSON.parse(localStorage.getItem(key));return saved&&Array.isArray(saved.products)&&Array.isArray(saved.sales)?saved:structuredClone(seed)}catch{return structuredClone(seed)}}
+export function save(state){localStorage.setItem(key,JSON.stringify(state))}
+export function reset(){localStorage.removeItem(key);return structuredClone(seed)}
