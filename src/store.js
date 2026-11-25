@@ -1,4 +1,4 @@
-export const modules={dashboard:'Dashboard',inventory:'Inventario',sales:'Ventas',cash:'Caja',prices:'Precios',reports:'Informes de ventas',settings:'Configuración'};
+export const modules={dashboard:'Dashboard',inventory:'Inventario',sales:'Ventas',cash:'Caja',prices:'Precios',reports:'Informes de ventas',branding:'Marca',settings:'Configuración'};
 const key='appnova-locales-demo-v1';
 const sampleProducts=[
 { id:1,name:"Café americano",sku:"CAF-001",stock:18,min:8,price:2200 },
@@ -22,9 +22,9 @@ const sampleProducts=[
 { id:19,name:"Muffin de arándanos",sku:"POS-019",stock:0,min:4,price:2500 },
 { id:20,name:"Cheesecake",sku:"POS-020",stock:5,min:5,price:3900 }
 ];
-const seed={products:sampleProducts,sales:[{id:101,date:'2026-11-25T10:40:00',productId:1,quantity:2,total:4400,method:'Tarjeta'},{id:102,date:'2026-11-25T11:20:00',productId:2,quantity:1,total:5900,method:'Efectivo'}],cash:{open:true,opening:50000,movements:[]},subscription:{expires:'2026-12-01'},visibility:{owner:['dashboard','inventory','sales','cash','prices','reports'],seller:['dashboard','inventory','sales','cash','prices']},api:{provider:'',baseUrl:'',status:'Pendiente de configurar'}};
+const seed={catalogSeedV2:true,products:sampleProducts,sales:[{id:101,date:'2026-11-25T10:40:00',productId:1,quantity:2,total:4400,method:'Tarjeta'},{id:102,date:'2026-11-25T11:20:00',productId:2,quantity:1,total:5900,method:'Efectivo'}],cash:{open:true,opening:50000,movements:[]},subscription:{expires:'2026-12-01'},visibility:{owner:['dashboard','inventory','sales','cash','prices','reports','branding'],seller:['dashboard','inventory','sales','cash','prices']},brand:{name:'AppNova',subtitle:'Locales · demo',logo:''},api:{provider:'',baseUrl:'',status:'Pendiente de configurar'}};
 // Add new demo products to previously saved browsers without replacing edited items.
-export function load(){try{const saved=JSON.parse(localStorage.getItem(key));if(saved&&Array.isArray(saved.products)&&Array.isArray(saved.sales)){const existing=new Set(saved.products.map(p=>p.sku));for(const item of sampleProducts)if(!existing.has(item.sku))saved.products.push(structuredClone(item));save(saved);return saved}return structuredClone(seed)}catch{return structuredClone(seed)}}
+export function load(){try{const saved=JSON.parse(localStorage.getItem(key));if(saved&&Array.isArray(saved.products)&&Array.isArray(saved.sales)){saved.brand??={name:'AppNova',subtitle:'Locales · demo',logo:''};saved.visibility.owner??=[];if(!saved.visibility.owner.includes('branding'))saved.visibility.owner.push('branding');if(!saved.catalogSeedV2){const existing=new Set(saved.products.map(p=>p.sku.toLocaleLowerCase('es-CL')));for(const item of sampleProducts)if(!existing.has(item.sku.toLocaleLowerCase('es-CL')))saved.products.push(structuredClone(item));saved.catalogSeedV2=true}save(saved);return saved}return structuredClone(seed)}catch{return structuredClone(seed)}}
 export function save(state){localStorage.setItem(key,JSON.stringify(state))}
 export function reset(){localStorage.removeItem(key);return structuredClone(seed)}
 
